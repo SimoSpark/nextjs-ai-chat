@@ -1,31 +1,64 @@
-import { openai } from '@ai-sdk/openai';
-import { streamText, tool } from 'ai';
-import { z } from 'zod';
+import { OpenAIStream, StreamingTextResponse } from 'ai';
 
-export const maxDuration = 30;
+// Optional, but recommended: run on the edge runtime.
+export const runtime = 'edge';
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+    try {
+        // Extract the `messages` from the body of the request
+        const { messages } = await req.json();
 
-  const result = streamText({
-    model: openai('gpt-4o'),
-    messages,
-    tools: {
-      weather: tool({
-        description: 'Get the weather in a location (fahrenheit)',
-        parameters: z.object({
-          location: z.string().describe('The location to get the weather for'),
-        }),
-        execute: async ({ location }) => {
-          const temperature = Math.round(Math.random() * (90 - 32) + 32);
-          return {
-            location,
-            temperature,
-          };
-        },
-      }),
-    },
-  });
+        // Verify we have an API key
+        if (!process.env.OPENROUTER_API_KEY) {
+            return new Response(
+                JSON.stringify({ error: 'OpenRouter API key is not configured' }),
+                { status: 500, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
 
-  return result.toDataStreamResponse();
+        console.log('Sending request to OpenRouter API...');
+        
+        // Request the OpenRouter API for the response
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+                'X-Title': 'Next.js AI Chat'
+            },
+            body: JSON.stringify({
+                model: 'openai/gpt-3.5-turbo', // You can change this to any model supported by OpenRouter
+                messages: messages,
+                stream: true,
+            }),
+        });
+
+        // Check if the response was successful
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+            const errorMessage = errorData 
+                ? JSON.stringify(errorData) 
+                : `OpenRouter API returned ${response.status} ${response.statusText}`;
+            
+            console.error('OpenRouter API error:', errorMessage);
+            
+            return new Response(
+                JSON.stringify({ error: errorMessage }),
+                { status: response.status, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
+
+        // Convert the response into a friendly text-stream
+        const stream = OpenAIStream(response);
+
+        // Respond with the stream
+        return new StreamingTextResponse(stream);
+    } catch (error) {
+        console.error('Error in chat API route:', error);
+        return new Response(
+            JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error occurred' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
 }
