@@ -11,7 +11,9 @@ export async function POST(req: Request) {
         // Verify we have an API key
         if (!process.env.OPENROUTER_API_KEY) {
             return new Response(
-                JSON.stringify({ error: 'OpenRouter API key is not configured' }),
+                JSON.stringify({ 
+                    error: 'OpenRouter API key is not configured. Please add OPENROUTER_API_KEY to your .env.local file.' 
+                }),
                 { status: 500, headers: { 'Content-Type': 'application/json' } }
             );
         }
@@ -19,13 +21,13 @@ export async function POST(req: Request) {
         console.log('Sending request to OpenRouter API...');
         
         // Request the OpenRouter API for the response
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
                 'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-                'X-Title': 'Next.js AI Chat'
+                'X-Title': 'SparkAI Chat'
             },
             body: JSON.stringify({
                 model: 'openai/gpt-3.5-turbo', // You can change this to any model supported by OpenRouter
@@ -36,10 +38,13 @@ export async function POST(req: Request) {
 
         // Check if the response was successful
         if (!response.ok) {
-            const errorData = await response.json().catch(() => null);
-            const errorMessage = errorData 
-                ? JSON.stringify(errorData) 
-                : `OpenRouter API returned ${response.status} ${response.statusText}`;
+            let errorMessage;
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.error?.message || JSON.stringify(errorData);
+            } catch {
+                errorMessage = `OpenRouter API returned ${response.status} ${response.statusText}`;
+            }
             
             console.error('OpenRouter API error:', errorMessage);
             
@@ -57,7 +62,10 @@ export async function POST(req: Request) {
     } catch (error) {
         console.error('Error in chat API route:', error);
         return new Response(
-            JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error occurred' }),
+            JSON.stringify({ 
+                error: error instanceof Error ? error.message : 'Unknown error occurred',
+                tip: 'Make sure you have set up your OPENROUTER_API_KEY in .env.local file'
+            }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }
         );
     }
