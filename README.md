@@ -31,10 +31,8 @@
 
 - **Real-time AI Responses**: Utilizes streaming text responses for a natural conversation feel
 - **Modern UI**: Elegant gradient design with animated elements and loading indicators
-- **Dark Mode Support**: Fully responsive light and dark theme with system preference detection
+- **Dark Mode Support**: Fully responsive dark theme with system preference detection
 - **OpenRouter Integration**: Connect to various AI models through OpenRouter's API
-- **Error Handling**: Graceful error management with user notifications
-- **Edge Runtime**: Optimized for performance with Next.js Edge Runtime
 - **Responsive Design**: Works seamlessly on mobile, tablet, and desktop devices
 
 ## Tech Stack
