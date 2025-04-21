@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { useChat } from "ai/react"
 import { useRef, useEffect, useState } from 'react'
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Sparkles, Send, RefreshCw } from "lucide-react"
+import { Sparkles, Send, RefreshCw , Github } from "lucide-react"
 
 export function Chat() {
     const { messages, input, handleInputChange, handleSubmit, isLoading, error, reload } = useChat();
@@ -40,10 +40,21 @@ export function Chat() {
                         <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-500 to-blue-500 text-transparent bg-clip-text">
                             SparkAI
                         </h1>
-                    </div>
-                    <span className="text-xs px-3 py-1 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 text-purple-800 dark:from-purple-900/60 dark:to-blue-900/60 dark:text-purple-100 ml-2 border border-purple-200 dark:border-purple-800/30 shadow-sm">
-                        Powered by OpenRouter
-                    </span>
+                        </div>
+        <div className="flex items-center gap-3">
+            <a 
+                href="https://github.com/SimoSpark/nextjs-ai-chat" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-slate-600 hover:text-purple-600 dark:text-slate-300 dark:hover:text-purple-400 transition-colors"
+            >
+                <Github className="h-5 w-5" />
+            </a>
+            <span className="text-xs px-3 py-1 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 text-purple-800 dark:from-purple-900/60 dark:to-blue-900/60 dark:text-purple-100 border border-purple-200 dark:border-purple-800/30 shadow-sm">
+                Powered by OpenRouter
+            </span>
+        </div>
+                    
                 </div>
             </header>
 
