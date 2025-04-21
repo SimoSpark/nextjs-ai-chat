@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1>✨ SparkAI Chat ✨</h1>
+  <p>
+    <strong>A sleek, modern AI chat application built with Next.js, Tailwind CSS, and OpenRouter API</strong>
+  </p>
+  
+  <p>
+    <a href="https://github.com/SimoSpark/nextjs-ai-chat/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/SimoSpark/nextjs-ai-chat?style=flat-square" alt="License" />
+    </a>
+    <a href="https://github.com/SimoSpark/nextjs-ai-chat/stargazers">
+      <img src="https://img.shields.io/github/stars/SimoSpark/nextjs-ai-chat?style=flat-square" alt="Stars" />
+    </a>
+    <a href="https://github.com/SimoSpark/nextjs-ai-chat/network/members">
+      <img src="https://img.shields.io/github/forks/SimoSpark/nextjs-ai-chat?style=flat-square" alt="Forks" />
+    </a>
+  </p>
+  
+  <br />
+  
+  <img src="./public/extrait.jpg" alt="SparkAI Chat Application Screenshot" width="80%" />
+  <p><em>"What if AI could understand your thoughts as you type them?"</em></p>
+</div>
 
-## Getting Started
 
-First, run the development server:
+
+
+
+
+## Features
+
+- **Real-time AI Responses**: Utilizes streaming text responses for a natural conversation feel
+- **Modern UI**: Elegant gradient design with animated elements and loading indicators
+- **Dark Mode Support**: Fully responsive light and dark theme with system preference detection
+- **OpenRouter Integration**: Connect to various AI models through OpenRouter's API
+- **Error Handling**: Graceful error management with user notifications
+- **Edge Runtime**: Optimized for performance with Next.js Edge Runtime
+- **Responsive Design**: Works seamlessly on mobile, tablet, and desktop devices
+
+## Tech Stack
+
+- **Frontend**: TypeScript, Next.js 14+, Tailwind CSS
+- **UI Components**: Shadcn UI components
+- **Icons**: Lucide React
+- **API Integration**: OpenRouter API via Edge runtime
+
+
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/SimoSpark/nextjs-ai-chat.git
+cd nextjs-ai-chat
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Create a `.env.local` file in the root directory
+
+```
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+You can configure the AI model in `src/app/api/chat/route.ts`:
 
-## Learn More
+```typescript
+body: JSON.stringify({
+    model: 'openai/gpt-3.5-turbo', // Change to any model supported by OpenRouter
+    messages: messages,
+    stream: true,
+}),
+```
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is licensed under the [MIT License](LICENSE).
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions are welcome! Please feel free to submit a Pull Request!

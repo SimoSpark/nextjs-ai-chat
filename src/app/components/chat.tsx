@@ -78,7 +78,7 @@ export function Chat() {
                                 </div>
                                 <h2 className="text-2xl font-semibold mb-3 text-slate-800 dark:text-slate-200">Welcome to SparkAI</h2>
                                 <p className="text-slate-600 dark:text-slate-400 max-w-md">
-                                    Your intelligent conversation partner. Ask me anything to get started!
+                                    Your intelligent conversation partner. Ask me anything to get started! 
                                 </p>
                                 <div className="mt-6 grid grid-cols-2 gap-2 max-w-md">
                                     <div className="bg-purple-50 dark:bg-purple-900/30 p-3 rounded-lg text-sm text-slate-700 dark:text-slate-300 cursor-pointer hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors border border-purple-200 dark:border-purple-800/30">
